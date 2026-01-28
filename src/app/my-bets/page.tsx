@@ -23,6 +23,11 @@ interface CreatedBet {
     home_score: number;
     away_score: number;
   } | null;
+  acceptances?: Array<{
+    first_name: string;
+    last_name: string;
+    amount: number;
+  }>;
 }
 
 interface AcceptedBet {
@@ -219,6 +224,7 @@ export default function MyBetsPage() {
                             : null
                         }
                         chosenTeamId={bet.chosen_team_id}
+                        acceptances={bet.acceptances}
                       />
                     ))}
                   </div>

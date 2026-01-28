@@ -18,6 +18,11 @@ interface MyBetCardProps {
     awayScore: number;
   } | null;
   chosenTeamId?: string;
+  acceptances?: Array<{
+    first_name: string;
+    last_name: string;
+    amount: number;
+  }>;
 }
 
 export default function MyBetCard({
@@ -31,6 +36,7 @@ export default function MyBetCard({
   isCreator,
   result,
   chosenTeamId,
+  acceptances = [],
 }: MyBetCardProps) {
   const gameDateTime = new Date(gameDate);
   const formattedDate = gameDateTime.toLocaleDateString('en-US', {
@@ -123,6 +129,44 @@ export default function MyBetCard({
             </div>
           )}
         </div>
+
+        {/* Acceptances - only show for creator */}
+        {isCreator && acceptances && acceptances.length > 0 && (
+          <div className="mt-3 pt-3 border-t border-gray-200">
+            <div className="text-xs font-medium text-gray-700 mb-2">
+              Accepted by {acceptances.length} {acceptances.length === 1 ? 'person' : 'people'}:
+            </div>
+            <div className="space-y-1">
+              {acceptances.map((acceptance, index) => (
+                <div key={index} className="flex justify-between items-center text-sm">
+                  <span className="text-gray-700">
+                    {acceptance.first_name} {acceptance.last_name}
+                  </span>
+                  <span className="font-medium text-gray-900">
+                    ${acceptance.amount.toFixed(2)}
+                  </span>
+                </div>
+              ))}
+            </div>
+            <div className="mt-2 pt-2 border-t border-gray-100">
+              <div className="flex justify-between items-center text-sm font-semibold">
+                <span className="text-gray-700">Total at risk:</span>
+                <span className="text-red-600">
+                  ${acceptances.reduce((sum, acc) => sum + acc.amount, 0).toFixed(2)}
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* No acceptances message for creator */}
+        {isCreator && (!acceptances || acceptances.length === 0) && status === 'open' && (
+          <div className="mt-3 pt-3 border-t border-gray-200">
+            <span className="text-xs text-gray-500 italic">
+              No one has accepted this bet yet
+            </span>
+          </div>
+        )}
 
         {/* Role indicator */}
         <div className="mt-3 pt-3 border-t border-gray-200">

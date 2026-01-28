@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getBetsCreatedByUser, getBetsAcceptedByUser, getBetResult } from '@/lib/db';
+import { getBetsCreatedByUser, getBetsAcceptedByUser, getBetResult, getBetAcceptancesWithUsers } from '@/lib/db';
 
 export async function GET(request: NextRequest) {
   try {
@@ -19,12 +19,14 @@ export async function GET(request: NextRequest) {
     // Get bets accepted by user
     const acceptedBets = getBetsAcceptedByUser(phoneNumber);
 
-    // Add result information for settled bets
+    // Add result information and acceptances for created bets
     const createdBetsWithResults = createdBets.map((bet) => {
       const result = bet.status === 'settled' ? getBetResult(bet.id) : null;
+      const acceptances = getBetAcceptancesWithUsers(bet.id);
       return {
         ...bet,
         result,
+        acceptances,
       };
     });
 
