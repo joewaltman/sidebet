@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "node db/ensure-schema.js && next start",
-    "db:init": "node db/ensure-schema.js",
+    "start": "node ensure-schema.js && next start",
+    "db:init": "node ensure-schema.js",
     "lint": "eslint"
   },
   "dependencies": {

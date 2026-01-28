@@ -12,7 +12,3 @@ cmds = ['npm run build']
 
 [start]
 cmd = 'npm run start'
-
-# Ensure db folder is included in the build
-[staticAssets]
-"db" = "db"
