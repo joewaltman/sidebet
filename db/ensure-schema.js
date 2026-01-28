@@ -60,20 +60,32 @@ CREATE TABLE IF NOT EXISTS bet_results (
 
 function initializeDatabase() {
   try {
+    console.log('=== DATABASE INITIALIZATION START ===');
+    console.log('Node version:', process.version);
+    console.log('Platform:', process.platform);
+    console.log('CWD:', process.cwd());
+
     // Determine database path
     const dbPath = process.env.DATABASE_PATH || path.join(process.cwd(), 'db', 'dev.db');
-
-    console.log('Initializing database at:', dbPath);
+    console.log('Database path:', dbPath);
 
     // Ensure database directory exists
     const dbDir = path.dirname(dbPath);
+    console.log('Database directory:', dbDir);
+
     if (!fs.existsSync(dbDir)) {
-      console.log('Creating database directory:', dbDir);
+      console.log('Creating database directory...');
       fs.mkdirSync(dbDir, { recursive: true });
+      console.log('Directory created successfully');
+    } else {
+      console.log('Database directory already exists');
     }
+
+    console.log('Attempting to open database with better-sqlite3...');
 
     // Create/open database
     const db = new Database(dbPath);
+    console.log('Database opened successfully');
 
     // Execute schema (using IF NOT EXISTS so it's safe to run multiple times)
     db.exec(SCHEMA_SQL);
