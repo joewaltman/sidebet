@@ -1,0 +1,6 @@
+# Ensure db folder is NOT ignored
+# Railway will include everything not listed here
+
+.next
+node_modules
+.git

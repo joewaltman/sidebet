@@ -1,0 +1,15 @@
+[phases.setup]
+nixPkgs = ['nodejs', 'npm']
+
+[phases.install]
+cmds = ['npm ci']
+
+[phases.build]
+cmds = ['npm run build']
+
+[start]
+cmd = 'npm run start'
+
+# Ensure db folder is included in the build
+[staticAssets]
+"db" = "db"
